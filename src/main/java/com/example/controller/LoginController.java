@@ -24,10 +24,7 @@ public class LoginController {
     @FXML
     private Text loginError;
     private Stage stage;
-    @FXML
-    private void initialize() {
-        // 初始化方法
-    }
+
 
 
     @FXML

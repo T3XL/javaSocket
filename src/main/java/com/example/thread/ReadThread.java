@@ -8,6 +8,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.Socket;
+import java.time.LocalDateTime;
 import java.util.logging.Logger;
 
 public class ReadThread extends Thread{
@@ -35,6 +36,8 @@ public class ReadThread extends Thread{
                 {
                     userList.getItems().add(strings[0]);
                 }
+                LocalDateTime now = LocalDateTime.now();
+                chatArea.appendText("--"+now.toString()+"--\n");
                 chatArea.appendText(message+"\n");
             }
             catch(IOException e)
