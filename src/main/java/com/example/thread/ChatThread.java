@@ -23,7 +23,7 @@ public class ChatThread extends Thread{
                 InputStream is = socket.getInputStream();
                 BufferedReader br = new BufferedReader(new java.io.InputStreamReader(is));
                 String message = br.readLine();
-                String[] value = message.split("-");
+                String[] value = message.split("-",2);
                 if(value.length == 1)
                 {
                     Map<String,Socket> userMap= ChatServer.userMap;

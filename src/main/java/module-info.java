@@ -13,4 +13,6 @@ module com.example.socketlab {
     exports com.example.socketlab;
     exports com.example.thread;
     opens com.example.thread to javafx.fxml;
+    exports com.example.controller;
+    opens com.example.controller to javafx.fxml;
 }
