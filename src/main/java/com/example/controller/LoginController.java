@@ -68,7 +68,7 @@ public class LoginController {
     private void switchToChatScene(String username) {
         try{
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/socketlab/Chat.fxml"));
-            Scene scene = new Scene(loader.load(), 600, 600);
+            Scene scene = new Scene(loader.load(), 800, 800);
             ChatController chatController = loader.getController();
             chatController.setChatSocket(username);
             Stage stage = new Stage();

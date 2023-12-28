@@ -8,6 +8,7 @@ module com.example.socketlab {
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
     requires java.sql;
+    requires emoji.java;
 
     opens com.example.socketlab to javafx.fxml;
     exports com.example.socketlab;

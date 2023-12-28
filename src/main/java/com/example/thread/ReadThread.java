@@ -1,5 +1,6 @@
 package com.example.thread;
 
+import com.vdurmont.emoji.EmojiParser;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
@@ -38,7 +39,8 @@ public class ReadThread extends Thread{
                 }
                 LocalDateTime now = LocalDateTime.now();
                 chatArea.appendText("--"+now.toString()+"--\n");
-                chatArea.appendText(message+"\n");
+                String message1 = EmojiParser.parseToUnicode(strings[1]);
+                chatArea.appendText(strings[0]+":"+ message1+"\n");
             }
             catch(IOException e)
             {

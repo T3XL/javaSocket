@@ -8,16 +8,30 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.control.TextField?>
 
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
 <BorderPane xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controller.ChatController">
     <center>
-        <TextArea fx:id="chatArea"/>
+        <TextArea fx:id="chatArea" style="-fx-font-family: 'Noto Emoji'; -fx-font-size: 15;" />
     </center>
     <right>
         <ListView fx:id="userList"/>
     </right>
     <bottom>
         <HBox spacing="10">
-            <TextField fx:id="messageInput"/>
+            <TextArea fx:id="messageInput" style="-fx-font-family: 'Noto Emoji'; -fx-font-size: 15;" />
+            <ChoiceBox fx:id="emojiChoiceBox" onAction="#emojiSelected">
+                <items>
+                    <!-- Emoji 表情选项 -->
+                    <FXCollections fx:factory="observableArrayList">
+                        <!-- 你可以在这里添加更多的 Emoji 表情 -->
+                        <!-- 例如： -->
+                        <String fx:value="😊"/> <!-- 笑脸 -->
+                        <String fx:value="❤️"/> <!-- 红心 -->
+                        <String fx:value="🎉"/> <!-- 庆祝 -->
+                    </FXCollections>
+                </items>
+            </ChoiceBox>
             <Button text="Send" onAction="#sendButtonClicked"/>
         </HBox>
     </bottom>
