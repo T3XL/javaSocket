@@ -1,5 +1,7 @@
 package com.example.socketlab;
 import com.example.controller.LoginController;
+import com.vdurmont.emoji.Emoji;
+import com.vdurmont.emoji.EmojiManager;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;

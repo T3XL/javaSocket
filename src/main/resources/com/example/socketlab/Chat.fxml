@@ -20,15 +20,25 @@
     <bottom>
         <HBox spacing="10">
             <TextArea fx:id="messageInput" style="-fx-font-family: 'Noto Emoji'; -fx-font-size: 15;" />
-            <ChoiceBox fx:id="emojiChoiceBox" onAction="#emojiSelected">
+            <ChoiceBox fx:id="emojiChoiceBox" onAction="#emojiSelected" style="-fx-font-family: 'Noto Emoji'; -fx-font-size: 15;">
                 <items>
-                    <!-- Emoji 表情选项 -->
                     <FXCollections fx:factory="observableArrayList">
-                        <!-- 你可以在这里添加更多的 Emoji 表情 -->
-                        <!-- 例如： -->
-                        <String fx:value="😊"/> <!-- 笑脸 -->
-                        <String fx:value="❤️"/> <!-- 红心 -->
-                        <String fx:value="🎉"/> <!-- 庆祝 -->
+                        <String fx:value="😊"/> <!-- 微笑 -->
+                        <String fx:value="😂"/> <!-- 大笑 -->
+                        <String fx:value="😭"/> <!-- 流泪 -->
+                        <String fx:value="😘"/> <!-- 飞吻 -->
+                        <String fx:value="😎"/> <!-- 酷 -->
+                        <String fx:value="😜"/> <!-- 调皮 -->
+                        <String fx:value="😢"/> <!-- 伤心 -->
+                        <String fx:value="😅"/> <!-- 汗笑 -->
+                        <String fx:value="😆"/> <!-- 哈哈 -->
+                        <String fx:value="😍"/> <!-- 色 -->
+                        <String fx:value="😝"/> <!-- 飘过 -->
+                        <String fx:value="😳"/> <!-- 腼腆 -->
+                        <String fx:value="😴"/> <!-- 睡觉 -->
+                        <String fx:value="😷"/> <!-- 生病 -->
+                        <String fx:value="🤔"/> <!-- 思考 -->
+                        <String fx:value="😋"/> <!-- 嘴馋 -->
                     </FXCollections>
                 </items>
             </ChoiceBox>

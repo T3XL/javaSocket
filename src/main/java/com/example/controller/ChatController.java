@@ -102,7 +102,6 @@ public class ChatController {
     @FXML
     private void emojiSelected(){
         String selectedEmoji = emojiChoiceBox.getValue();
-
         insertTextAtCaret(messageInput, selectedEmoji);
     }
     private void insertTextAtCaret(TextArea textArea, String text) {
