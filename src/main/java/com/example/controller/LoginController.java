@@ -72,6 +72,7 @@ public class LoginController {
             ChatController chatController = loader.getController();
             chatController.setChatSocket(username);
             Stage stage = new Stage();
+            stage.setTitle(username);
             stage.setScene(scene);
             stage.show();
         }
