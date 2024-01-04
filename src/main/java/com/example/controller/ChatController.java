@@ -43,6 +43,14 @@ public class ChatController {
     @FXML
     private void initialize() {
         try(Connection connection = DatabaseConnect.getConnection()){
+            userList.setOnMouseClicked(event -> {
+                if (event.getClickCount() == 2) { // 双击触发私聊
+                    String selectedUser = userList.getSelectionModel().getSelectedItem();
+                    if (selectedUser != null) {
+                        startPrivateChat(selectedUser);
+                    }
+                }
+            });
             String sql = "SELECT * FROM chat_log";
             try (PreparedStatement statement = connection.prepareStatement(sql);
                  ResultSet resultSet = statement.executeQuery()) {
@@ -66,6 +74,25 @@ public class ChatController {
             logger.info("Chat Controller Initialization Error: " + e.getMessage());
         }
     }
+
+    private void startPrivateChat(String selectedUser) {
+        try{
+            OutputStream os = socket.getOutputStream();
+            PrintWriter pw = new PrintWriter(os);
+            String str = messageInput.getText();
+            String str2 = EmojiParser.parseToUnicode(str);
+            messageInput.clear();
+            LocalDateTime now = LocalDateTime.now();
+            chatArea.appendText("--"+now.toString()+"--\n");
+            chatArea.appendText(username + ":" + str2 + "\n");
+            pw.println(selectedUser+'-'+str);
+            pw.flush();
+        }
+        catch (IOException e){
+            logger.info(e.getMessage());
+        }
+    }
+
     public void setChatSocket(String username) {
         try {
             Socket chatSocket = new Socket("localhost", 8088);
