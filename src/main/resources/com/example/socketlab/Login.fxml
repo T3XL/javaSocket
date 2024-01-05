@@ -25,5 +25,6 @@
         <PasswordField fx:id="passwordInput" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
     </GridPane>
     <Button fx:id="loginButton" text="Login" onAction="#loginButtonClicked"/>
+    <Button text="register" onAction="#registerButtonClicked"/>
     <Text fx:id="loginError" />
 </VBox>

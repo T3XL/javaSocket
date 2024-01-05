@@ -1,5 +1,6 @@
 package com.example.controller;
 
+import com.example.socketlab.DatabaseConnect;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -11,6 +12,9 @@ import javafx.stage.Stage;
 
 import java.io.*;
 import java.net.Socket;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.logging.Logger;
 
 public class LoginController {
@@ -23,8 +27,32 @@ public class LoginController {
     private Button loginButton;
     @FXML
     private Text loginError;
+
     private Stage stage;
 
+    @FXML
+    private void registerButtonClicked(){
+        String username = usernameInput.getText();
+        String password = passwordInput.getText();
+        usernameInput.clear();
+        passwordInput.clear();
+        try (Connection connection = DatabaseConnect.getConnection()) {
+            String sql = "INSERT INTO user (username, password) VALUES (?, ?)";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setString(1, username);
+                preparedStatement.setString(2, password);
+
+                int rowsAffected = preparedStatement.executeUpdate();
+                if (rowsAffected > 0) {
+                    loginError.setText("Register success.");
+                } else {
+                    loginError.setText("Register failed.");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
 
     @FXML

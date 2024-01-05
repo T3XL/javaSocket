@@ -1,33 +1,29 @@
 package com.example.controller;
 import com.example.socketlab.DatabaseConnect;
 import com.example.thread.ReadThread;
-import com.vdurmont.emoji.Emoji;
-import com.vdurmont.emoji.EmojiManager;
-import eu.hansolo.toolbox.observables.ObservableList;
-import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 
-import java.awt.*;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Logger;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.time.LocalDateTime;
 import com.vdurmont.emoji.EmojiParser;
+import javafx.scene.control.TextArea;
 
-
+import java.util.List;
 
 
 public class ChatController {
+    @FXML
+    private TabPane tabPane;
     @FXML
     private ListView<String> userList;
     @FXML
@@ -37,8 +33,10 @@ public class ChatController {
     @FXML
     private ChoiceBox<String> emojiChoiceBox;
 
+    private String selectedUser;
     private Socket socket;
     private String username;
+    private List<TextArea> chatAreas = new ArrayList<>();
     private static final Logger logger = Logger.getLogger(ChatController.class.getName());
     @FXML
     private void initialize() {
@@ -51,6 +49,7 @@ public class ChatController {
                     }
                 }
             });
+            chatAreas.add(chatArea);
             String sql = "SELECT * FROM chat_log";
             try (PreparedStatement statement = connection.prepareStatement(sql);
                  ResultSet resultSet = statement.executeQuery()) {
@@ -74,25 +73,30 @@ public class ChatController {
             logger.info("Chat Controller Initialization Error: " + e.getMessage());
         }
     }
+//    @FXML
+//    private void groupChatSelected(){
+//        System.out.println("aaaa");
+//    }
+//    onSelectionChanged="#groupChatSelected"
 
-    private void startPrivateChat(String selectedUser) {
-        try{
-            OutputStream os = socket.getOutputStream();
-            PrintWriter pw = new PrintWriter(os);
-            String str = messageInput.getText();
-            String str2 = EmojiParser.parseToUnicode(str);
-            messageInput.clear();
-            LocalDateTime now = LocalDateTime.now();
-            chatArea.appendText("--"+now.toString()+"--\n");
-            chatArea.appendText(username + ":" + str2 + "\n");
-            pw.println(selectedUser+'-'+str);
-            pw.flush();
-        }
-        catch (IOException e){
-            logger.info(e.getMessage());
-        }
+    private void handlePrivateChatSelection(String selectedUser) {
+        this.selectedUser = selectedUser;
     }
+    private void startPrivateChat(String selectedUser) {
+        Tab privateChatTab = new Tab("Private Chat with " + selectedUser);
+        TextArea privateChatArea = new TextArea();
+        privateChatTab.setContent(privateChatArea);
 
+        chatAreas.add(privateChatArea);
+        // 添加Tab到TabPane
+        tabPane.getTabs().add(privateChatTab);
+
+        privateChatTab.setOnSelectionChanged(event -> {
+            if (privateChatTab.isSelected()) {
+                handlePrivateChatSelection(selectedUser);
+            }
+        });
+    }
     public void setChatSocket(String username) {
         try {
             Socket chatSocket = new Socket("localhost", 8088);
@@ -103,7 +107,7 @@ public class ChatController {
             pw.println(username);
             pw.flush();
 
-            new ReadThread(chatSocket, chatArea, userList).start();
+            new ReadThread(chatSocket, chatAreas, userList).start();
         } catch (IOException e) {
             logger.info("Chat Controller Initialization Error: " + e.getMessage());
         }
@@ -117,9 +121,33 @@ public class ChatController {
             String str2 = EmojiParser.parseToUnicode(str);
             messageInput.clear();
             LocalDateTime now = LocalDateTime.now();
-            chatArea.appendText("--"+now.toString()+"--\n");
-            chatArea.appendText(username + ":" + str2 + "\n");
+            for(TextArea chatArea:chatAreas)
+            {
+                chatArea.appendText("--"+now.toString()+"--\n");
+                chatArea.appendText(username + ":" + str2 + "\n");
+            }
             pw.println(str);
+            pw.flush();
+        }
+        catch (IOException e){
+            logger.info(e.getMessage());
+        }
+    }
+    @FXML
+    private void psendButtonClicked(){
+        try{
+            OutputStream os = socket.getOutputStream();
+            PrintWriter pw = new PrintWriter(os);
+            String str = messageInput.getText();
+            String str2 = EmojiParser.parseToUnicode(str);
+            messageInput.clear();
+            LocalDateTime now = LocalDateTime.now();
+            for(TextArea chatArea:chatAreas)
+            {
+                chatArea.appendText("--"+now.toString()+"--\n");
+                chatArea.appendText(username + ":" + str2 + "\n");
+            }
+            pw.println(selectedUser+"-"+str);
             pw.flush();
         }
         catch (IOException e){

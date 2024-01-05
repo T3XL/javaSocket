@@ -12,7 +12,14 @@
 <?import java.lang.String?>
 <BorderPane xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controller.ChatController">
     <center>
-        <TextArea fx:id="chatArea" style="-fx-font-family: 'Noto Emoji'; -fx-font-size: 15;" />
+        <TabPane fx:id="tabPane" tabClosingPolicy="UNAVAILABLE">
+            <Tab text="Group Chat" >
+                <content>
+                    <TextArea fx:id="chatArea" style="-fx-font-family: 'Noto Emoji'; -fx-font-size: 15;" />
+                </content>
+            </Tab>
+            <!-- Add more tabs for private chats -->
+        </TabPane>
     </center>
     <right>
         <ListView fx:id="userList"/>
@@ -43,6 +50,7 @@
                 </items>
             </ChoiceBox>
             <Button text="Send" onAction="#sendButtonClicked"/>
+            <Button text="Psend" onAction="#psendButtonClicked"/>
         </HBox>
     </bottom>
 </BorderPane>
